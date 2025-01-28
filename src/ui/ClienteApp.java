@@ -1,4 +1,4 @@
-package ui;
+/*package ui;
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -180,3 +180,4 @@ public class ClienteApp extends Application {
         }
     }
 }
+*/

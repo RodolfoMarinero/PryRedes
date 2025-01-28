@@ -13,9 +13,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-public class Client {
+public class Client2 {
     private static final int SERVER_PORT = 5000;
-    private static final int LOCAL_PORT = 6001;
+    private static final int LOCAL_PORT = 6002;
 
     private static final Map<String, PublicKey> publicKeys = new HashMap<>();
     private static final Map<String, String> userIps = new HashMap<>();
