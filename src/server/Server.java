@@ -1,6 +1,5 @@
 package server;
 
-
 import java.net.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -29,8 +28,8 @@ public class Server {
 
     private static void processRequest(String request, DatagramPacket packet, DatagramSocket socket) {
         try {
-            if (request.isEmpty()) {
-                log("⚠️ Solicitud vacía ignorada.");
+            if (request.isEmpty() || request.length() > 2048) {
+                log("⚠️ Solicitud vacía o demasiado larga ignorada.");
                 return;
             }
 
@@ -67,14 +66,18 @@ public class Server {
             String publicKey = parts[2];
             String ip = packet.getAddress().getHostAddress();
 
-            // Registrar usuario y clave pública
+            if (users.containsKey(username)) {
+                log("⚠️ Usuario ya registrado: " + username);
+                sendResponse("ERROR: Usuario ya registrado.", packet, socket);
+                return;
+            }
+
             users.put(username, ip);
             publicKeys.put(username, publicKey);
 
             log("✅ Usuario registrado: " + username + " | IP: " + ip);
             log("🔑 Clave pública (Base64): " + publicKey);
 
-            // Enviar lista de usuarios
             String response = "Usuarios registrados: " + users.keySet();
             sendResponse(response, packet, socket);
         } catch (Exception e) {
@@ -86,6 +89,7 @@ public class Server {
         try {
             if (parts.length < 2) {
                 log("⚠️ Solicitud de clave pública malformada: " + String.join(":", parts));
+                sendResponse("ERROR: Solicitud malformada.", packet, socket);
                 return;
             }
 

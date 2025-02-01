@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  client1:
+    build: .
+    container_name: client1
+    environment:
+      - LOCAL_PORT=6001
+      - SERVER_IP=192.168.4.1
+      - USERNAME=rodolfo
+    networks:
+      - client_network
+    stdin_open: true
+    tty: true
+
+  client2:
+    build: .
+    container_name: client2
+    environment:
+      - LOCAL_PORT=6002
+      - SERVER_IP=192.168.4.1
+      - USERNAME=amparo
+    networks:
+      - client_network
+    stdin_open: true
+    tty: true
+
+networks:
+  client_network:
+    driver: bridge
+
